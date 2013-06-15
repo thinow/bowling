@@ -21,8 +21,7 @@ public class ParserTest {
 
 		// then
 		Frame frame = getOnlyElement(frames);
-		assertThat(frame).isInstanceOf(StrikeFrame.class);
-		assertThat(frame.getKnockedPins()).isEqualTo(10);
+		validateFrame(frame, StrikeFrame.class, 10);
 	}
 
 	@Test
@@ -32,8 +31,22 @@ public class ParserTest {
 
 		// then
 		Frame frame = getOnlyElement(frames);
-		assertThat(frame).isInstanceOf(SpareFrame.class);
-		assertThat(frame.getKnockedPins()).isEqualTo(6);
+		validateFrame(frame, SpareFrame.class, 6);
+	}
+
+	@Test
+	public void doubleScoredFrame() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("36");
+
+		// then
+		Frame frame = getOnlyElement(frames);
+		validateFrame(frame, FailedFrame.class, 3 + 6);
+	}
+
+	private void validateFrame(Frame frame, Class<?> type, int pins) {
+		assertThat(frame).isInstanceOf(type);
+		assertThat(frame.getKnockedPins()).isEqualTo(pins);
 	}
 
 }

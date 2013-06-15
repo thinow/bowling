@@ -1,11 +1,11 @@
 package org.kata.bowling;
 
-public class SpareFrame implements Frame {
+public class FailedFrame implements Frame {
 
 	private int knockedPins;
 
-	public SpareFrame(int firstTry) {
-		this.knockedPins = firstTry;
+	public FailedFrame(int firstTry, int secondTry) {
+		this.knockedPins = firstTry + secondTry;
 	}
 
 	@Override
