@@ -2,8 +2,8 @@ package org.kata.bowling;
 
 public class Frame {
 
-	public Object getScore() {
-		return null;
+	public int getScore() {
+		return 0;
 	}
 
 }

@@ -29,7 +29,22 @@ public class ScoreCalculatorMockedTest {
 		int score = calculateGameScore(GAME);
 
 		// then
-		assertThat(score).isEqualTo(5);
+		assertThat(score).isEqualTo(frame.getScore());
+	}
+
+	@Test
+	public void severalFrames() throws Exception {
+		// given
+		Frame frame = createFrame(1);
+		Frame anotherFrame = createFrame(2);
+		defineGameFrames(GAME, newArrayList(frame, anotherFrame));
+
+		// when
+		int score = calculateGameScore(GAME);
+
+		// then
+		int sum = frame.getScore() + anotherFrame.getScore();
+		assertThat(score).isEqualTo(sum);
 	}
 
 	private Frame createFrame(int score) {
