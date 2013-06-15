@@ -20,7 +20,20 @@ public class ParserTest {
 		Collection<Frame> frames = parser.parse("X");
 
 		// then
-		assertThat(getOnlyElement(frames)).isInstanceOf(StrikeFrame.class);
+		Frame frame = getOnlyElement(frames);
+		assertThat(frame).isInstanceOf(StrikeFrame.class);
+		assertThat(frame.getKnockedPins()).isEqualTo(10);
+	}
+
+	@Test
+	public void spareFrame() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("6/");
+
+		// then
+		Frame frame = getOnlyElement(frames);
+		assertThat(frame).isInstanceOf(SpareFrame.class);
+		assertThat(frame.getKnockedPins()).isEqualTo(6);
 	}
 
 }

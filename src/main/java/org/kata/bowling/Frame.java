@@ -4,4 +4,6 @@ public interface Frame {
 
 	int getScore();
 
+	int getKnockedPins();
+
 }
