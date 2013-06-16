@@ -22,7 +22,7 @@ public class SpareFrameTest {
 	}
 
 	@Test
-	public void getScoreAndKnockedPins() throws Exception {
+	public void computeScoreBasedOnNextFrame() throws Exception {
 		// given
 		Frame frame = new SpareFrame(PINS);
 		frame.setNext(createFrame(NEXT_FRAME_PINS));
