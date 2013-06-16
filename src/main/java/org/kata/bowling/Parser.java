@@ -5,6 +5,7 @@ import static com.google.common.collect.Lists.*;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.google.common.primitives.Chars;
 
@@ -15,12 +16,18 @@ public class Parser {
 	private static final char SYMBOL_MISSED = '-';
 
 	public Collection<Frame> parse(String game) {
-
-		Deque<Character> symbols = new LinkedList<>(Chars.asList(game.toCharArray()));
+		Deque<Character> symbols = parseSymbols(game);
 
 		Collection<Frame> frames = newArrayList();
-		frames.add(parseFrame(symbols));
+		while (!symbols.isEmpty()) {
+			frames.add(parseFrame(symbols));
+		}
 		return frames;
+	}
+
+	private Deque<Character> parseSymbols(String game) {
+		List<Character> characters = Chars.asList(game.toCharArray());
+		return new LinkedList<>(characters);
 	}
 
 	private Frame parseFrame(Deque<Character> symbols) {
