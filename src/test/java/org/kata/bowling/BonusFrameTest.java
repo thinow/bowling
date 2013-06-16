@@ -17,7 +17,7 @@ public class BonusFrameTest {
 		int score = frame.getScore();
 
 		// then
-		assertThat(score).isEqualTo(PINS);
+		assertThat(score).isZero();
 	}
 
 }
