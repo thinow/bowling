@@ -8,7 +8,7 @@ public class BonusFrame extends Frame {
 
 	@Override
 	int getScore() {
-		return 0;
+		return getKnockedPins();
 	}
 
 }
