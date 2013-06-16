@@ -1,9 +1,17 @@
 package org.kata.bowling;
 
-public interface Frame {
+public abstract class Frame {
 
-	int getScore();
+	private int knockedPins;
 
-	int getKnockedPins();
+	public Frame(int knockedPins) {
+		this.knockedPins = knockedPins;
+	}
+
+	public final int getKnockedPins() {
+		return knockedPins;
+	}
+
+	abstract int getScore();
 
 }

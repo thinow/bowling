@@ -44,6 +44,16 @@ public class ParserTest {
 		validateFrame(frame, FailedFrame.class, 3 + 6);
 	}
 
+	@Test
+	public void scoreAndMissFrame() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("4-");
+
+		// then
+		Frame frame = getOnlyElement(frames);
+		validateFrame(frame, FailedFrame.class, 4);
+	}
+
 	private void validateFrame(Frame frame, Class<?> type, int pins) {
 		assertThat(frame).isInstanceOf(type);
 		assertThat(frame.getKnockedPins()).isEqualTo(pins);

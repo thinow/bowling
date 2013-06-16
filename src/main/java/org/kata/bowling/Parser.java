@@ -12,6 +12,7 @@ public class Parser {
 
 	private static final char SYMBOL_STRIKE = 'X';
 	private static final char SYMBOL_SPARE = '/';
+	private static final char SYMBOL_MISSED = '-';
 
 	public Collection<Frame> parse(String game) {
 
@@ -43,7 +44,11 @@ public class Parser {
 	}
 
 	private int integerOf(char character) {
-		return character - '0';
+		if (character == SYMBOL_MISSED) {
+			return 0;
+		} else {
+			return character - '0';
+		}
 	}
 
 }

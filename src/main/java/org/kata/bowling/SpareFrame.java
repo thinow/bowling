@@ -1,21 +1,14 @@
 package org.kata.bowling;
 
-public class SpareFrame implements Frame {
-
-	private int knockedPins;
+public class SpareFrame extends Frame {
 
 	public SpareFrame(int firstTry) {
-		this.knockedPins = firstTry;
+		super(firstTry);
 	}
 
 	@Override
 	public int getScore() {
 		return 0;
-	}
-
-	@Override
-	public int getKnockedPins() {
-		return knockedPins;
 	}
 
 }
