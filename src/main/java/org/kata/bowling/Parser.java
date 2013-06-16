@@ -38,6 +38,11 @@ public class Parser {
 		}
 
 		Character firstSymbol = symbols.pop();
+
+		if (symbols.isEmpty()) {
+			return new BonusFrame(integerOf(firstSymbol));
+		}
+
 		Character secondSymbol = symbols.pop();
 
 		if (secondSymbol == SYMBOL_SPARE) {

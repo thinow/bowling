@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ParserTest {
 
 	private Parser parser = new Parser();
+
 	private Iterator<Frame> framesIterator;
 
 	@Test
@@ -59,13 +60,24 @@ public class ParserTest {
 	@Test
 	public void parseFrameSuite() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("8/" + "X" + "9-");
+		Collection<Frame> frames = parser.parse("X" + "8/" + "9-");
 
 		// then
 		assertThat(frames).hasSize(3);
-		validateFrame(nextOf(frames), SpareFrame.class, 8);
 		validateFrame(nextOf(frames), StrikeFrame.class, 10);
+		validateFrame(nextOf(frames), SpareFrame.class, 8);
 		validateFrame(nextOf(frames), FailedFrame.class, 9);
+	}
+
+	@Test
+	public void parseSuiteWithSpareAndBonus() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("2/" + "5");
+
+		// then
+		assertThat(frames).hasSize(2);
+		validateFrame(nextOf(frames), SpareFrame.class, 2);
+		validateFrame(nextOf(frames), BonusFrame.class, 5);
 	}
 
 	private Frame nextOf(Collection<Frame> frames) {
