@@ -8,7 +8,7 @@ public class FailedFrame extends Frame {
 
 	@Override
 	public int getScore() {
-		return 0;
+		return getKnockedPins();
 	}
 
 }
