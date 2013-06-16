@@ -80,6 +80,30 @@ public class ParserTest {
 		validateFrame(nextOf(frames), BonusFrame.class, 5);
 	}
 
+	@Test
+	public void parseSuiteWithStrikeAndTwoBonus() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("X" + "5" + "3");
+
+		// then
+		assertThat(frames).hasSize(3);
+		validateFrame(nextOf(frames), StrikeFrame.class, 10);
+		validateFrame(nextOf(frames), BonusFrame.class, 5);
+		validateFrame(nextOf(frames), BonusFrame.class, 3);
+	}
+
+	@Test
+	public void parseSuiteWithStrikeAndTwoStikeBonus() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("X" + "X" + "X");
+
+		// then
+		assertThat(frames).hasSize(3);
+		validateFrame(nextOf(frames), StrikeFrame.class, 10);
+		validateFrame(nextOf(frames), BonusFrame.class, 10);
+		validateFrame(nextOf(frames), BonusFrame.class, 10);
+	}
+
 	private Frame nextOf(Collection<Frame> frames) {
 		if (framesIterator == null) {
 			framesIterator = frames.iterator();

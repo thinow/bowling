@@ -15,12 +15,46 @@ public class Parser {
 	private static final char SYMBOL_SPARE = '/';
 	private static final char SYMBOL_MISSED = '-';
 
+	private static final int NO_PIN = 0;
+	private static final int ALL_PINS = 10;
+
 	public Collection<Frame> parse(String game) {
 		Deque<Character> symbols = parseSymbols(game);
 
 		Collection<Frame> frames = newArrayList();
 		while (!symbols.isEmpty()) {
-			frames.add(parseFrame(symbols));
+
+			if (symbols.peekFirst() == SYMBOL_STRIKE) {
+				symbols.pop();
+
+				frames.add(new StrikeFrame());
+
+				if (symbols.size() == 2) {
+					frames.add(new BonusFrame(integerOf(symbols.pop())));
+					frames.add(new BonusFrame(integerOf(symbols.pop())));
+				}
+
+			} else {
+
+				Character firstSymbol = symbols.pop();
+
+				if (symbols.isEmpty()) {
+					frames.add(new BonusFrame(integerOf(firstSymbol)));
+				} else {
+
+					Character secondSymbol = symbols.pop();
+
+					if (secondSymbol == SYMBOL_SPARE) {
+						int firstTry = integerOf(firstSymbol);
+						frames.add(new SpareFrame(firstTry));
+					} else {
+						int firstTry = integerOf(firstSymbol);
+						int secondTry = integerOf(secondSymbol);
+						frames.add(new FailedFrame(firstTry, secondTry));
+					}
+				}
+			}
+
 		}
 		return frames;
 	}
@@ -30,35 +64,15 @@ public class Parser {
 		return new LinkedList<>(characters);
 	}
 
-	private Frame parseFrame(Deque<Character> symbols) {
-
-		if (symbols.peekFirst() == SYMBOL_STRIKE) {
-			symbols.pop();
-			return new StrikeFrame();
-		}
-
-		Character firstSymbol = symbols.pop();
-
-		if (symbols.isEmpty()) {
-			return new BonusFrame(integerOf(firstSymbol));
-		}
-
-		Character secondSymbol = symbols.pop();
-
-		if (secondSymbol == SYMBOL_SPARE) {
-			int firstTry = integerOf(firstSymbol);
-			return new SpareFrame(firstTry);
-		} else {
-			int firstTry = integerOf(firstSymbol);
-			int secondTry = integerOf(secondSymbol);
-			return new FailedFrame(firstTry, secondTry);
-		}
-	}
-
 	private int integerOf(char character) {
-		if (character == SYMBOL_MISSED) {
-			return 0;
-		} else {
+		switch (character) {
+
+		case SYMBOL_MISSED:
+			return NO_PIN;
+		case SYMBOL_STRIKE:
+			return ALL_PINS;
+
+		default:
 			return character - '0';
 		}
 	}
