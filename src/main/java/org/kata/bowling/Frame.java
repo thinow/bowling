@@ -9,7 +9,7 @@ public abstract class Frame {
 		this.knockedPins = knockedPins;
 	}
 
-	public final int getKnockedPins() {
+	public int getKnockedPins() {
 		return knockedPins;
 	}
 
@@ -21,6 +21,10 @@ public abstract class Frame {
 
 	public void setNext(Frame next) {
 		this.next = next;
+	}
+
+	protected boolean hasNext() {
+		return getNext() != null;
 	}
 
 }
