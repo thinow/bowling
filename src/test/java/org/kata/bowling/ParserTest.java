@@ -104,6 +104,22 @@ public class ParserTest {
 		validateFrame(nextOf(frames), BonusFrame.class, 10);
 	}
 
+	@Test
+	public void framesAreLinkedToEachOther() throws Exception {
+		// when
+		Collection<Frame> frames = parser.parse("1-" + "2-" + "3-");
+
+		// then
+		assertThat(frames).hasSize(3);
+
+		Frame first = nextOf(frames);
+		Frame second = nextOf(frames);
+		Frame third = nextOf(frames);
+
+		assertThat(first.getNext()).isEqualTo(second);
+		assertThat(second.getNext()).isEqualTo(third);
+	}
+
 	private Frame nextOf(Collection<Frame> frames) {
 		if (framesIterator == null) {
 			framesIterator = frames.iterator();

@@ -54,8 +54,10 @@ public class Parser {
 					}
 				}
 			}
-
 		}
+
+		linkFrames(frames);
+
 		return frames;
 	}
 
@@ -74,6 +76,17 @@ public class Parser {
 
 		default:
 			return character - '0';
+		}
+	}
+
+	private void linkFrames(Collection<Frame> frames) {
+		Frame previous = null;
+
+		for (Frame frame : frames) {
+			if (previous != null) {
+				previous.setNext(frame);
+			}
+			previous = frame;
 		}
 	}
 
