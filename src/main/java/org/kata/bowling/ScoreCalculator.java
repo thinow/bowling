@@ -21,7 +21,7 @@ public class ScoreCalculator {
 	}
 
 	public int calculate(String game) {
-		Collection<GameEntry> entries = parser.parseGame(game);
+		Collection<GameEntry> entries = parser.parse(game);
 		Collection<Frame> frames = transform(entries, new Function<GameEntry, Frame>() {
 			@Override
 			public Frame apply(GameEntry entry) {

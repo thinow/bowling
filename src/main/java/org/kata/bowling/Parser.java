@@ -18,7 +18,11 @@ public class Parser {
 	private static final int NO_PIN = 0;
 	private static final int ALL_PINS = 10;
 
-	public Collection<Frame> parse(String game) {
+	public Collection<GameEntry> parse(String anyString) {
+		return null;
+	}
+
+	public Collection<Frame> parseGame(String game) {
 		Deque<Character> symbols = parseSymbols(game);
 
 		Collection<Frame> frames = newArrayList();
@@ -88,10 +92,6 @@ public class Parser {
 			}
 			previous = frame;
 		}
-	}
-
-	public Collection<GameEntry> parseGame(String anyString) {
-		return null;
 	}
 
 }

@@ -31,14 +31,14 @@ public class ScoreCalculatorTest {
 	@Test
 	public void calculatorParseAndCreateFrames() throws Exception {
 		// given
-		when(parser.parseGame(anyString())).thenReturn(newArrayList(ENTRY, ANOTHER_ENTRY));
+		when(parser.parse(anyString())).thenReturn(newArrayList(ENTRY, ANOTHER_ENTRY));
 		when(frameFactory.createFrame(any(GameEntry.class))).thenReturn(ANY_FRAME);
 
 		// when
 		calculateGameScore(GAME);
 
 		// then
-		verify(parser).parseGame(GAME);
+		verify(parser).parse(GAME);
 		verify(frameFactory).createFrame(ENTRY);
 		verify(frameFactory).createFrame(ANOTHER_ENTRY);
 	}
@@ -74,7 +74,7 @@ public class ScoreCalculatorTest {
 	}
 
 	private void defineGameEntries(GameEntry... entries) {
-		when(parser.parseGame(anyString())).thenReturn(newArrayList(entries));
+		when(parser.parse(anyString())).thenReturn(newArrayList(entries));
 	}
 
 	private void defineFrameForEntry(GameEntry entry, Frame frame) {

@@ -20,7 +20,7 @@ public class ParserTest {
 	@Test
 	public void strikeFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("X");
+		Collection<Frame> frames = parser.parseGame("X");
 
 		// then
 		Frame frame = getOnlyElement(frames);
@@ -30,7 +30,7 @@ public class ParserTest {
 	@Test
 	public void spareFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("6/");
+		Collection<Frame> frames = parser.parseGame("6/");
 
 		// then
 		Frame frame = getOnlyElement(frames);
@@ -40,7 +40,7 @@ public class ParserTest {
 	@Test
 	public void doubleScoredFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("36");
+		Collection<Frame> frames = parser.parseGame("36");
 
 		// then
 		Frame frame = getOnlyElement(frames);
@@ -50,7 +50,7 @@ public class ParserTest {
 	@Test
 	public void scoreAndMissFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("4-");
+		Collection<Frame> frames = parser.parseGame("4-");
 
 		// then
 		Frame frame = getOnlyElement(frames);
@@ -58,9 +58,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void parseFrameSuite() throws Exception {
+	public void parseGameFrameSuite() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("X" + "8/" + "9-");
+		Collection<Frame> frames = parser.parseGame("X" + "8/" + "9-");
 
 		// then
 		assertThat(frames).hasSize(3);
@@ -70,9 +70,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void parseSuiteWithSpareAndBonus() throws Exception {
+	public void parseGameSuiteWithSpareAndBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("2/" + "5");
+		Collection<Frame> frames = parser.parseGame("2/" + "5");
 
 		// then
 		assertThat(frames).hasSize(2);
@@ -81,9 +81,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void parseSuiteWithStrikeAndTwoBonus() throws Exception {
+	public void parseGameSuiteWithStrikeAndTwoBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("X" + "5" + "3");
+		Collection<Frame> frames = parser.parseGame("X" + "5" + "3");
 
 		// then
 		assertThat(frames).hasSize(3);
@@ -93,9 +93,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void parseSuiteWithStrikeAndTwoStikeBonus() throws Exception {
+	public void parseGameSuiteWithStrikeAndTwoStikeBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("X" + "X" + "X");
+		Collection<Frame> frames = parser.parseGame("X" + "X" + "X");
 
 		// then
 		assertThat(frames).hasSize(3);
@@ -107,7 +107,7 @@ public class ParserTest {
 	@Test
 	public void framesAreLinkedToEachOther() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parse("1-" + "2-" + "3-");
+		Collection<Frame> frames = parser.parseGame("1-" + "2-" + "3-");
 
 		// then
 		assertThat(frames).hasSize(3);
