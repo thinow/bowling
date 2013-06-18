@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
+import org.kata.bowling.GameEntry.Type;
 
 public class FrameFactoryTest {
 
@@ -21,20 +22,54 @@ public class FrameFactoryTest {
 			SECOND_TO_LAST, LAST);
 
 	private static final int PINS = 2;
+	private static final int ALL_PINS = 10;
 
 	private FrameFactory factory = new FrameFactory();
 
 	@Test
 	public void createFailedFrame() throws Exception {
-		// given
-		GameEntry entry = new GameEntry(FAILED, PINS);
-
 		// when
-		Frame frame = factory.createFrame(entry, PREVIOUS_FRAMES);
+		Frame frame = createFrame(FAILED);
 
 		// then
-		assertThat(frame).isInstanceOf(FailedFrame.class);
-		assertThat(frame.getKnockedPins()).isEqualTo(PINS);
+		assertExpectedFrame(frame, FailedFrame.class, PINS);
+	}
+
+	@Test
+	public void createBonusFrame() throws Exception {
+		// when
+		Frame frame = createFrame(BONUS);
+
+		// then
+		assertExpectedFrame(frame, BonusFrame.class, PINS);
+	}
+
+	@Test
+	public void createSpareFrame() throws Exception {
+		// when
+		Frame frame = createFrame(SPARE);
+
+		// then
+		assertExpectedFrame(frame, SpareFrame.class, PINS);
+	}
+
+	@Test
+	public void createStrikeFrame() throws Exception {
+		// when
+		Frame frame = createFrame(STRIKE);
+
+		// then
+		assertExpectedFrame(frame, StrikeFrame.class, ALL_PINS);
+	}
+
+	private Frame createFrame(Type type) {
+		GameEntry entry = new GameEntry(type, PINS);
+		return factory.createFrame(entry, PREVIOUS_FRAMES);
+	}
+
+	private void assertExpectedFrame(Frame frame, Class<? extends Frame> type, int pins) {
+		assertThat(frame).isInstanceOf(type);
+		assertThat(frame.getKnockedPins()).isEqualTo(pins);
 
 		verify(LAST).setNext(frame);
 	}
