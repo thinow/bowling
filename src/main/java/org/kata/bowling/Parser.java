@@ -90,4 +90,8 @@ public class Parser {
 		}
 	}
 
+	public Collection<GameEntry> parseGame(String anyString) {
+		return null;
+	}
+
 }
