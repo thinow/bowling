@@ -5,6 +5,11 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -32,15 +37,15 @@ public class ScoreCalculatorTest {
 	public void calculatorParseAndCreateFrames() throws Exception {
 		// given
 		when(parser.parse(anyString())).thenReturn(newArrayList(ENTRY, ANOTHER_ENTRY));
-		when(frameFactory.createFrame(any(GameEntry.class))).thenReturn(ANY_FRAME);
+		when(frameFactory.createFrame(anyEntry(), someFrames())).thenReturn(ANY_FRAME);
 
 		// when
 		calculateGameScore(GAME);
 
 		// then
 		verify(parser).parse(GAME);
-		verify(frameFactory).createFrame(ENTRY);
-		verify(frameFactory).createFrame(ANOTHER_ENTRY);
+		verify(frameFactory).createFrame(ENTRY, noFrames());
+		verify(frameFactory).createFrame(ANOTHER_ENTRY, collectionWith(ANY_FRAME));
 	}
 
 	@Test
@@ -78,7 +83,7 @@ public class ScoreCalculatorTest {
 	}
 
 	private void defineFrameForEntry(GameEntry entry, Frame frame) {
-		when(frameFactory.createFrame(entry)).thenReturn(frame);
+		when(frameFactory.createFrame(eq(entry), someFrames())).thenReturn(frame);
 	}
 
 	private static Frame createFrame(int score) {
@@ -91,5 +96,21 @@ public class ScoreCalculatorTest {
 	private int calculateGameScore(String game) {
 		ScoreCalculator calculator = new ScoreCalculator(parser, frameFactory);
 		return calculator.calculate(game);
+	}
+
+	private GameEntry anyEntry() {
+		return any(GameEntry.class);
+	}
+
+	private Collection<Frame> someFrames() {
+		return anyCollectionOf(Frame.class);
+	}
+
+	private List<Frame> noFrames() {
+		return Collections.<Frame> emptyList();
+	}
+
+	private ArrayList<Frame> collectionWith(Frame frame) {
+		return newArrayList(frame);
 	}
 }
