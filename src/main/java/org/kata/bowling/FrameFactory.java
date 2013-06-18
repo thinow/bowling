@@ -8,7 +8,7 @@ public class FrameFactory {
 
 	public Frame createFrame(GameEntry entry, Collection<Frame> previousFrames) {
 		// FIXME Ne plus séparer les scores
-		FailedFrame frame = new FailedFrame(entry.getPins(), 0);
+		FailedFrame frame = new FailedFrame(entry.getPins());
 		linkFrames(previousFrames, frame);
 
 		return frame;

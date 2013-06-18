@@ -6,19 +6,18 @@ import org.junit.Test;
 
 public class FailedFrameTest {
 
-	private static final int FIRST_TRY = 4;
-	private static final int SECOND_TRY = 3;
+	private static final int PINS = 4;
 
 	@Test
-	public void scoreIsTheSumOfTries() throws Exception {
+	public void scoreIsKnockedPinsCount() throws Exception {
 		// given
-		FailedFrame frame = new FailedFrame(FIRST_TRY, SECOND_TRY);
+		FailedFrame frame = new FailedFrame(PINS);
 
 		// when
 		int score = frame.getScore();
 
 		// then
-		assertThat(score).isEqualTo(FIRST_TRY + SECOND_TRY);
+		assertThat(score).isEqualTo(PINS);
 	}
 
 }

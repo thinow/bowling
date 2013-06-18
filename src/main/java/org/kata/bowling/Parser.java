@@ -54,7 +54,7 @@ public class Parser {
 					} else {
 						int firstTry = integerOf(firstSymbol);
 						int secondTry = integerOf(secondSymbol);
-						frames.add(new FailedFrame(firstTry, secondTry));
+						frames.add(new FailedFrame(firstTry + secondTry));
 					}
 				}
 			}
