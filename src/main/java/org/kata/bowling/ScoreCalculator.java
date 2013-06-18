@@ -1,8 +1,11 @@
 package org.kata.bowling;
 
 import static com.google.common.base.Preconditions.*;
+import static com.google.common.collect.Collections2.*;
 
 import java.util.Collection;
+
+import com.google.common.base.Function;
 
 public class ScoreCalculator {
 
@@ -19,18 +22,21 @@ public class ScoreCalculator {
 
 	public int calculate(String game) {
 		Collection<GameEntry> entries = parser.parseGame(game);
-		for (GameEntry entry : entries) {
-			frameFactory.createFrame(entry);
-		}
+		Collection<Frame> frames = transform(entries, new Function<GameEntry, Frame>() {
+			@Override
+			public Frame apply(GameEntry entry) {
+				return frameFactory.createFrame(entry);
+			}
+		});
 
-		Collection<Frame> frames = parser.parse(game);
 		return sumFrameScores(frames);
 	}
 
 	private int sumFrameScores(Collection<Frame> frames) {
 		int score = 0;
 		for (Frame frame : frames) {
-			score += frame.getScore();
+			int frameScore = frame.getScore();
+			score += frameScore;
 		}
 		return score;
 	}
