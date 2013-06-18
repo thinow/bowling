@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ScoreCalculatorMockedTest {
+public class ScoreCalculatorTest {
 
 	private static final String GAME = "any-game-line";
 	private static final Frame ANY_FRAME = createFrame(1);
