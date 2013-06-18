@@ -6,6 +6,8 @@ import static org.kata.bowling.GameEntry.Type.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -35,6 +37,22 @@ public class FrameFactoryTest {
 		assertThat(frame.getKnockedPins()).isEqualTo(PINS);
 
 		verify(LAST).setNext(frame);
+	}
+
+	@Test
+	public void tryToLinkFramesWithoutPrevious() throws Exception {
+		// given
+		Frame frame = mock(Frame.class);
+
+		// when
+		factory.linkFrames(noFrames(), frame);
+
+		// then
+		verifyNoMoreInteractions(frame);
+	}
+
+	private List<Frame> noFrames() {
+		return Collections.<Frame> emptyList();
 	}
 
 }

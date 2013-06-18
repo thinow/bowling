@@ -14,9 +14,11 @@ public class FrameFactory {
 		return frame;
 	}
 
-	private void linkFrames(Collection<Frame> previousFrames, FailedFrame newFrame) {
-		Frame previousFrame = getLast(previousFrames);
-		previousFrame.setNext(newFrame);
+	void linkFrames(Collection<Frame> previousFrames, Frame newFrame) {
+		if (!previousFrames.isEmpty()) {
+			Frame previousFrame = getLast(previousFrames);
+			previousFrame.setNext(newFrame);
+		}
 	}
 
 }
