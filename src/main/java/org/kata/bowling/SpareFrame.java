@@ -8,7 +8,6 @@ public class SpareFrame extends Frame {
 
 	private static final int SPARE_BONUS = 10;
 
-	@Deprecated
 	public SpareFrame(int firstTry) {
 		super(ALL_PINS);
 	}

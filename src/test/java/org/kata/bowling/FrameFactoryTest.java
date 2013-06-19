@@ -7,6 +7,7 @@ import static org.fest.assertions.Assertions.*;
 import static org.kata.bowling.GameEntry.Type.*;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.Test;
 import org.kata.bowling.GameEntry.Type;
@@ -21,6 +22,8 @@ public class FrameFactoryTest {
 	protected static final int SECOND_TRY = 5;
 
 	private FrameFactory factory = new FrameFactory();
+
+	private Iterator<Frame> iterator;
 
 	@Test
 	public void createFailedFrame() throws Exception {
@@ -49,6 +52,19 @@ public class FrameFactoryTest {
 		assertExpectedFrame(frame, StrikeFrame.class, ALL_PINS);
 	}
 
+	@Test
+	public void createSimpleFrameSuite() throws Exception {
+		// when
+		Collection<Frame> frames = createFrames(STRIKE, SPARE, FAILED, FAILED);
+
+		// then
+		assertThat(frames).hasSize(4);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), SpareFrame.class);
+		assertExpectedFrame(nextOf(frames), FailedFrame.class);
+		assertExpectedFrame(nextOf(frames), FailedFrame.class);
+	}
+
 	private Frame createFrame(Type type) {
 		Collection<Frame> frames = createFrames(type);
 		return getOnlyElement(frames);
@@ -66,6 +82,18 @@ public class FrameFactoryTest {
 				return new GameEntry(type, FIRST_TRY, SECOND_TRY);
 			}
 		});
+	}
+
+	private Frame nextOf(Collection<Frame> frames) {
+		if (iterator == null) {
+			iterator = frames.iterator();
+		}
+
+		return iterator.next();
+	}
+
+	private void assertExpectedFrame(Frame frame, Class<? extends Frame> type) {
+		assertThat(frame).isInstanceOf(type);
 	}
 
 	private void assertExpectedFrame(Frame frame, Class<? extends Frame> type, int pins) {
