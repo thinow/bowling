@@ -20,9 +20,19 @@ public class Parser {
 	private static final int ALL_PINS = 10;
 
 	public Collection<GameEntry> parse(String game) {
-		Collection<GameEntry> entries = newArrayList();
-		entries.add(new GameEntry(STRIKE, ALL_PINS, NO_PIN));
-		return entries;
+		Deque<Character> symbols = parseSymbols(game);
+		GameEntry entry = createEntry(symbols);
+		return newArrayList(entry);
+	}
+
+	private GameEntry createEntry(Deque<Character> symbols) {
+		Character symbol = symbols.pop();
+		if (symbol == 'X') {
+			return new GameEntry(STRIKE, ALL_PINS, NO_PIN);
+		} else {
+			int firstTry = integerOf(symbol);
+			return new GameEntry(SPARE, firstTry, ALL_PINS - firstTry);
+		}
 	}
 
 	public Collection<Frame> parseGame(String game) {

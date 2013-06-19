@@ -35,14 +35,15 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore
 	public void spareFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("6/");
+		Collection<GameEntry> entries = parser.parse("6/");
 
 		// then
-		Frame frame = getOnlyElement(frames);
-		validateFrame(frame, SpareFrame.class, 6);
+		GameEntry entry = getOnlyElement(entries);
+		assertThat(entry.getType()).isEqualTo(SPARE);
+		assertThat(entry.getFirstTry()).isEqualTo(6);
+		assertThat(entry.getSecondTry()).isEqualTo(ALL_PINS - 6);
 	}
 
 	@Test
