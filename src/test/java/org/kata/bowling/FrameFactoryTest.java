@@ -53,7 +53,7 @@ public class FrameFactoryTest {
 	}
 
 	@Test
-	public void createSimpleFrameSuite() throws Exception {
+	public void createSimpleSuite() throws Exception {
 		// when
 		Collection<Frame> frames = createFrames(STRIKE, SPARE, FAILED, FAILED);
 
@@ -63,6 +63,17 @@ public class FrameFactoryTest {
 		assertExpectedFrame(nextOf(frames), SpareFrame.class);
 		assertExpectedFrame(nextOf(frames), FailedFrame.class);
 		assertExpectedFrame(nextOf(frames), FailedFrame.class);
+	}
+
+	@Test
+	public void createSuiteWithSpareBonus() throws Exception {
+		// when
+		Collection<Frame> frames = createFrames(SPARE, FAILED);
+
+		// then
+		assertThat(frames).hasSize(2);
+		assertExpectedFrame(nextOf(frames), SpareFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class, FIRST_TRY);
 	}
 
 	private Frame createFrame(Type type) {
