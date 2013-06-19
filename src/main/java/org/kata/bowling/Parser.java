@@ -31,27 +31,23 @@ public class Parser {
 		return entries;
 	}
 
-	private GameEntry createEntry(Deque<Character> symbols) {
-		Character symbol = symbols.pop();
-		if (symbol == SYMBOL_STRIKE) {
-			return new GameEntry(STRIKE, ALL_PINS, NO_PIN);
-		}
-
-		Character secondSymbol = symbols.poll();
-
-		if (secondSymbol == null || secondSymbol != SYMBOL_SPARE) {
-			int firstTry = integerOf(symbol);
-			int secondTry = integerOf(secondSymbol);
-			return new GameEntry(FAILED, firstTry, secondTry);
-		} else {
-			int firstTry = integerOf(symbol);
-			return new GameEntry(SPARE, firstTry, ALL_PINS - firstTry);
-		}
-	}
-
 	private Deque<Character> parseSymbols(String game) {
 		List<Character> characters = Chars.asList(game.toCharArray());
 		return new LinkedList<>(characters);
+	}
+
+	private GameEntry createEntry(Deque<Character> symbols) {
+		Character firstTry = symbols.pop();
+		if (firstTry == SYMBOL_STRIKE) {
+			return new GameEntry(STRIKE, ALL_PINS, NO_PIN);
+		}
+
+		Character secondTry = symbols.poll();
+		if (secondTry != null && secondTry == SYMBOL_SPARE) {
+			return new GameEntry(SPARE, integerOf(firstTry), ALL_PINS - integerOf(firstTry));
+		} else {
+			return new GameEntry(FAILED, integerOf(firstTry), integerOf(secondTry));
+		}
 	}
 
 	private int integerOf(Character character) {
