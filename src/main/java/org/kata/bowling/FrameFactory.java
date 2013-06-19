@@ -1,18 +1,22 @@
 package org.kata.bowling;
 
-import static com.google.common.collect.Iterables.*;
+import static com.google.common.collect.Lists.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.kata.bowling.GameEntry.Type;
 
 public class FrameFactory {
 
-	public Frame createFrame(GameEntry entry, Collection<Frame> previousFrames) {
-		Frame frame = createFrame(entry);
-		linkFrames(previousFrames, frame);
+	public Collection<Frame> createFrames(Collection<GameEntry> entries) {
+		ArrayList<Frame> frames = newArrayList();
 
-		return frame;
+		for (GameEntry entry : entries) {
+			frames.add(createFrame(entry));
+		}
+
+		return frames;
 	}
 
 	private Frame createFrame(GameEntry entry) {
@@ -31,17 +35,6 @@ public class FrameFactory {
 		default:
 			return null;
 		}
-	}
-
-	void linkFrames(Collection<Frame> previousFrames, Frame newFrame) {
-		if (!previousFrames.isEmpty()) {
-			Frame previousFrame = getLast(previousFrames);
-			previousFrame.setNext(newFrame);
-		}
-	}
-
-	public Collection<Frame> createFrames(Collection<GameEntry> entries) {
-		return null;
 	}
 
 }
