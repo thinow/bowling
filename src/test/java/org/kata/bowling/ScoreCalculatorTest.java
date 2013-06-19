@@ -5,10 +5,7 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +17,7 @@ public class ScoreCalculatorTest {
 
 	private static final String GAME = "any-game-line";
 
-	private static final GameEntry ENTRY = mock(GameEntry.class);
-	private static final GameEntry ANOTHER_ENTRY = mock(GameEntry.class);
-
-	private static final Frame ANY_FRAME = createFrame(1);
+	private static final Collection<GameEntry> ENTRIES = newArrayList(mock(GameEntry.class));
 
 	private static final int SCORE = 5;
 	private static final int ANOTHER_SCORE = 8;
@@ -34,56 +28,22 @@ public class ScoreCalculatorTest {
 	private FrameFactory frameFactory;
 
 	@Test
-	public void calculatorParseAndCreateFrames() throws Exception {
+	public void calculatorSumFramesScores() throws Exception {
 		// given
-		when(parser.parse(anyString())).thenReturn(newArrayList(ENTRY, ANOTHER_ENTRY));
-		when(frameFactory.createFrame(anyEntry(), someFrames())).thenReturn(ANY_FRAME);
+		when(parser.parse(anyString())).thenReturn(ENTRIES);
+
+		Frame first = createFrame(SCORE);
+		Frame second = createFrame(ANOTHER_SCORE);
+		when(frameFactory.createFrames(anyEntries())).thenReturn(newArrayList(first, second));
 
 		// when
-		calculateGameScore(GAME);
+		int score = calculateGameScore(GAME);
 
 		// then
 		verify(parser).parse(GAME);
-		verify(frameFactory).createFrame(ENTRY, noFrames());
-		verify(frameFactory).createFrame(ANOTHER_ENTRY, collectionWith(ANY_FRAME));
-	}
+		verify(frameFactory).createFrames(ENTRIES);
 
-	@Test
-	public void onlyOnceFrameGame() throws Exception {
-		// given
-		defineGameEntries(ENTRY);
-
-		defineFrameForEntry(ENTRY, createFrame(SCORE));
-
-		// when
-		int score = calculateGameScore(GAME);
-
-		// then
-		assertThat(score).isEqualTo(SCORE);
-	}
-
-	@Test
-	public void severalFrames() throws Exception {
-		// given
-		defineGameEntries(ENTRY, ANOTHER_ENTRY);
-
-		defineFrameForEntry(ENTRY, createFrame(SCORE));
-		defineFrameForEntry(ANOTHER_ENTRY, createFrame(ANOTHER_SCORE));
-
-		// when
-		int score = calculateGameScore(GAME);
-
-		// then
-		int sum = SCORE + ANOTHER_SCORE;
-		assertThat(score).isEqualTo(sum);
-	}
-
-	private void defineGameEntries(GameEntry... entries) {
-		when(parser.parse(anyString())).thenReturn(newArrayList(entries));
-	}
-
-	private void defineFrameForEntry(GameEntry entry, Frame frame) {
-		when(frameFactory.createFrame(eq(entry), someFrames())).thenReturn(frame);
+		assertThat(score).isEqualTo(SCORE + ANOTHER_SCORE);
 	}
 
 	private static Frame createFrame(int score) {
@@ -93,24 +53,12 @@ public class ScoreCalculatorTest {
 		return frame;
 	}
 
+	private Collection<GameEntry> anyEntries() {
+		return anyCollectionOf(GameEntry.class);
+	}
+
 	private int calculateGameScore(String game) {
 		ScoreCalculator calculator = new ScoreCalculator(parser, frameFactory);
 		return calculator.calculate(game);
-	}
-
-	private GameEntry anyEntry() {
-		return any(GameEntry.class);
-	}
-
-	private Collection<Frame> someFrames() {
-		return anyCollectionOf(Frame.class);
-	}
-
-	private List<Frame> noFrames() {
-		return Collections.<Frame> emptyList();
-	}
-
-	private ArrayList<Frame> collectionWith(Frame frame) {
-		return newArrayList(frame);
 	}
 }

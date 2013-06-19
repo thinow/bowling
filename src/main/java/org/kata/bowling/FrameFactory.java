@@ -40,4 +40,8 @@ public class FrameFactory {
 		}
 	}
 
+	public Collection<Frame> createFrames(Collection<GameEntry> entries) {
+		return null;
+	}
+
 }
