@@ -76,6 +76,19 @@ public class FrameFactoryTest {
 		assertExpectedFrame(nextOf(frames), BonusFrame.class, FIRST_TRY);
 	}
 
+	@Test
+	public void createSuiteWithStrikesOnly() throws Exception {
+		// when
+		Collection<Frame> frames = createFrames(STRIKE, STRIKE, STRIKE, STRIKE);
+
+		// then
+		assertThat(frames).hasSize(4);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
+	}
+
 	private Frame createFrame(Type type) {
 		Collection<Frame> frames = createFrames(type);
 		return getOnlyElement(frames);

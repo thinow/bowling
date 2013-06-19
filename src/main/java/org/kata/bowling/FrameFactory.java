@@ -30,18 +30,29 @@ public class FrameFactory {
 	private Frame createFrame(int index) {
 		GameEntry entry = findEntry(index);
 
-		Frame frame = null;
-
-		if (isLastEntry(index) && findPreviousEntry(index).getType() == SPARE) {
-			frame = new BonusFrame(entry.getFirstTry());
+		if (isSpareBonusZone(index) || isStrikeBonusZone(index)) {
+			return new BonusFrame(entry.getFirstTry());
 		} else {
-			frame = createFrame(entry);
+			return createFrame(entry);
 		}
-		return frame;
+	}
+
+	private boolean isSpareBonusZone(int index) {
+		return isLastEntry(index) && isPreviousType(SPARE, index);
+	}
+
+	private boolean isStrikeBonusZone(int index) {
+		boolean firstBonus = isLastEntry(index + 1) && isPreviousType(STRIKE, index);
+		boolean secondBonus = isLastEntry(index) && isPreviousType(STRIKE, index - 1);
+		return firstBonus || secondBonus;
+	}
+
+	private boolean isPreviousType(Type type, int index) {
+		return findPreviousEntry(index).getType() == type;
 	}
 
 	private GameEntry findPreviousEntry(int index) {
-		if (index == 0) {
+		if (index <= 0) {
 			return DUMMY_ENTRY;
 		} else {
 			return findEntry(index - 1);
