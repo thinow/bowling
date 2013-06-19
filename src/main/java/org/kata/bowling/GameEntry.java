@@ -2,6 +2,7 @@ package org.kata.bowling;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -11,7 +12,13 @@ public class GameEntry {
 		STRIKE, SPARE, FAILED, BONUS
 	}
 
+	@NonNull
 	private Type type;
-	private int pins;
+	private int firstTry;
+	private int secondTry;
+
+	public int getPins() {
+		return firstTry + secondTry;
+	}
 
 }

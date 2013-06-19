@@ -63,7 +63,7 @@ public class FrameFactoryTest {
 	}
 
 	private Frame createFrame(Type type) {
-		GameEntry entry = new GameEntry(type, PINS);
+		GameEntry entry = new GameEntry(type, PINS, 0);
 		return factory.createFrame(entry, PREVIOUS_FRAMES);
 	}
 
