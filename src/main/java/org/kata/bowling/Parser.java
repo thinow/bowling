@@ -1,6 +1,7 @@
 package org.kata.bowling;
 
 import static com.google.common.collect.Lists.*;
+import static org.kata.bowling.GameEntry.Type.*;
 
 import java.util.Collection;
 import java.util.Deque;
@@ -18,8 +19,10 @@ public class Parser {
 	private static final int NO_PIN = 0;
 	private static final int ALL_PINS = 10;
 
-	public Collection<GameEntry> parse(String anyString) {
-		return null;
+	public Collection<GameEntry> parse(String game) {
+		Collection<GameEntry> entries = newArrayList();
+		entries.add(new GameEntry(STRIKE, ALL_PINS, NO_PIN));
+		return entries;
 	}
 
 	public Collection<Frame> parseGame(String game) {
