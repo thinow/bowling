@@ -27,11 +27,19 @@ public class Parser {
 
 	private GameEntry createEntry(Deque<Character> symbols) {
 		Character symbol = symbols.pop();
-		if (symbol == 'X') {
+		if (symbol == SYMBOL_STRIKE) {
 			return new GameEntry(STRIKE, ALL_PINS, NO_PIN);
-		} else {
+		}
+
+		Character secondSymbol = symbols.pop();
+
+		if (secondSymbol == SYMBOL_SPARE) {
 			int firstTry = integerOf(symbol);
 			return new GameEntry(SPARE, firstTry, ALL_PINS - firstTry);
+		} else {
+			int firstTry = integerOf(symbol);
+			int secondTry = integerOf(secondSymbol);
+			return new GameEntry(FAILED, firstTry, secondTry);
 		}
 	}
 

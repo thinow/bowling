@@ -47,25 +47,27 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore
 	public void doubleScoredFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("36");
+		Collection<GameEntry> entries = parser.parse("36");
 
 		// then
-		Frame frame = getOnlyElement(frames);
-		validateFrame(frame, FailedFrame.class, 3 + 6);
+		GameEntry entry = getOnlyElement(entries);
+		assertThat(entry.getType()).isEqualTo(FAILED);
+		assertThat(entry.getFirstTry()).isEqualTo(3);
+		assertThat(entry.getSecondTry()).isEqualTo(6);
 	}
 
 	@Test
-	@Ignore
 	public void scoreAndMissFrame() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("4-");
+		Collection<GameEntry> entries = parser.parse("4-");
 
 		// then
-		Frame frame = getOnlyElement(frames);
-		validateFrame(frame, FailedFrame.class, 4);
+		GameEntry entry = getOnlyElement(entries);
+		assertThat(entry.getType()).isEqualTo(FAILED);
+		assertThat(entry.getFirstTry()).isEqualTo(4);
+		assertThat(entry.getSecondTry()).isEqualTo(0);
 	}
 
 	@Test
