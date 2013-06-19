@@ -7,7 +7,6 @@ import static org.kata.bowling.GameEntry.Type.*;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kata.bowling.GameEntry.Type;
@@ -22,7 +21,6 @@ public class ParserTest {
 	private Parser parser = new Parser();
 
 	private Iterator<GameEntry> entriesIterator;
-	private Iterator<Frame> framesIterator;
 
 	@Test
 	public void strikeFrame() throws Exception {
@@ -110,23 +108,6 @@ public class ParserTest {
 		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
 	}
 
-	@Test
-	@Ignore
-	public void framesAreLinkedToEachOther() throws Exception {
-		// when
-		Collection<Frame> frames = parser.parseGame("1-" + "2-" + "3-");
-
-		// then
-		assertThat(frames).hasSize(3);
-
-		Frame first = nextFrameOf(frames);
-		Frame second = nextFrameOf(frames);
-		Frame third = nextFrameOf(frames);
-
-		assertThat(first.getNext()).isEqualTo(second);
-		assertThat(second.getNext()).isEqualTo(third);
-	}
-
 	private GameEntry nextOf(Collection<GameEntry> entries) {
 		if (entriesIterator == null) {
 			entriesIterator = entries.iterator();
@@ -135,23 +116,10 @@ public class ParserTest {
 		return entriesIterator.next();
 	}
 
-	private Frame nextFrameOf(Collection<Frame> frames) {
-		if (framesIterator == null) {
-			framesIterator = frames.iterator();
-		}
-
-		return framesIterator.next();
-	}
-
 	private void validateEntry(GameEntry entry, Type type, int first, int second) {
 		assertThat(entry.getType()).isEqualTo(type);
 		assertThat(entry.getFirstTry()).isEqualTo(first);
 		assertThat(entry.getSecondTry()).isEqualTo(second);
-	}
-
-	private void validateFrame(Frame frame, Class<?> type, int pins) {
-		assertThat(frame).isInstanceOf(type);
-		assertThat(frame.getKnockedPins()).isEqualTo(pins);
 	}
 
 }

@@ -49,49 +49,6 @@ public class Parser {
 		}
 	}
 
-	public Collection<Frame> parseGame(String game) {
-		Deque<Character> symbols = parseSymbols(game);
-
-		Collection<Frame> frames = newArrayList();
-		while (!symbols.isEmpty()) {
-
-			if (symbols.peekFirst() == SYMBOL_STRIKE) {
-				symbols.pop();
-
-				frames.add(new StrikeFrame());
-
-				if (symbols.size() == 2) {
-					frames.add(new BonusFrame(integerOf(symbols.pop())));
-					frames.add(new BonusFrame(integerOf(symbols.pop())));
-				}
-
-			} else {
-
-				Character firstSymbol = symbols.pop();
-
-				if (symbols.isEmpty()) {
-					frames.add(new BonusFrame(integerOf(firstSymbol)));
-				} else {
-
-					Character secondSymbol = symbols.pop();
-
-					if (secondSymbol == SYMBOL_SPARE) {
-						int firstTry = integerOf(firstSymbol);
-						frames.add(new SpareFrame(firstTry));
-					} else {
-						int firstTry = integerOf(firstSymbol);
-						int secondTry = integerOf(secondSymbol);
-						frames.add(new FailedFrame(firstTry + secondTry));
-					}
-				}
-			}
-		}
-
-		linkFrames(frames);
-
-		return frames;
-	}
-
 	private Deque<Character> parseSymbols(String game) {
 		List<Character> characters = Chars.asList(game.toCharArray());
 		return new LinkedList<>(characters);
@@ -111,17 +68,6 @@ public class Parser {
 
 		default:
 			return character - '0';
-		}
-	}
-
-	private void linkFrames(Collection<Frame> frames) {
-		Frame previous = null;
-
-		for (Frame frame : frames) {
-			if (previous != null) {
-				previous.setNext(frame);
-			}
-			previous = frame;
 		}
 	}
 
