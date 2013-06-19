@@ -3,6 +3,7 @@ package org.kata.bowling;
 import static com.google.common.collect.Lists.*;
 import static org.kata.bowling.GameEntry.Type.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -21,8 +22,14 @@ public class Parser {
 
 	public Collection<GameEntry> parse(String game) {
 		Deque<Character> symbols = parseSymbols(game);
-		GameEntry entry = createEntry(symbols);
-		return newArrayList(entry);
+
+		Collection<GameEntry> entries = newArrayList();
+		while (!symbols.isEmpty()) {
+			GameEntry entry = createEntry(symbols);
+			entries.add(entry);
+		}
+
+		return entries;
 	}
 
 	private GameEntry createEntry(Deque<Character> symbols) {

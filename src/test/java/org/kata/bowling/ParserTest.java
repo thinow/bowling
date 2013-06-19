@@ -10,6 +10,7 @@ import java.util.Iterator;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kata.bowling.GameEntry.Type;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -20,6 +21,7 @@ public class ParserTest {
 
 	private Parser parser = new Parser();
 
+	private Iterator<GameEntry> entriesIterator;
 	private Iterator<Frame> framesIterator;
 
 	@Test
@@ -29,9 +31,7 @@ public class ParserTest {
 
 		// then
 		GameEntry entry = getOnlyElement(entries);
-		assertThat(entry.getType()).isEqualTo(STRIKE);
-		assertThat(entry.getFirstTry()).isEqualTo(ALL_PINS);
-		assertThat(entry.getSecondTry()).isEqualTo(NO_PIN);
+		validateEntry(entry, STRIKE, ALL_PINS, NO_PIN);
 	}
 
 	@Test
@@ -41,9 +41,7 @@ public class ParserTest {
 
 		// then
 		GameEntry entry = getOnlyElement(entries);
-		assertThat(entry.getType()).isEqualTo(SPARE);
-		assertThat(entry.getFirstTry()).isEqualTo(6);
-		assertThat(entry.getSecondTry()).isEqualTo(ALL_PINS - 6);
+		validateEntry(entry, SPARE, 6, ALL_PINS - 6);
 	}
 
 	@Test
@@ -53,9 +51,7 @@ public class ParserTest {
 
 		// then
 		GameEntry entry = getOnlyElement(entries);
-		assertThat(entry.getType()).isEqualTo(FAILED);
-		assertThat(entry.getFirstTry()).isEqualTo(3);
-		assertThat(entry.getSecondTry()).isEqualTo(6);
+		validateEntry(entry, FAILED, 3, 6);
 	}
 
 	@Test
@@ -65,22 +61,19 @@ public class ParserTest {
 
 		// then
 		GameEntry entry = getOnlyElement(entries);
-		assertThat(entry.getType()).isEqualTo(FAILED);
-		assertThat(entry.getFirstTry()).isEqualTo(4);
-		assertThat(entry.getSecondTry()).isEqualTo(0);
+		validateEntry(entry, FAILED, 4, 0);
 	}
 
 	@Test
-	@Ignore
 	public void parseGameFrameSuite() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("X" + "8/" + "9-");
+		Collection<GameEntry> entries = parser.parse("X" + "8/" + "9-");
 
 		// then
-		assertThat(frames).hasSize(3);
-		validateFrame(nextOf(frames), StrikeFrame.class, 10);
-		validateFrame(nextOf(frames), SpareFrame.class, 8);
-		validateFrame(nextOf(frames), FailedFrame.class, 9);
+		assertThat(entries).hasSize(3);
+		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
+		validateEntry(nextOf(entries), SPARE, 8, ALL_PINS - 8);
+		validateEntry(nextOf(entries), FAILED, 9, 0);
 	}
 
 	@Test
@@ -91,8 +84,8 @@ public class ParserTest {
 
 		// then
 		assertThat(frames).hasSize(2);
-		validateFrame(nextOf(frames), SpareFrame.class, 2);
-		validateFrame(nextOf(frames), BonusFrame.class, 5);
+		validateFrame(nextFrameOf(frames), SpareFrame.class, 2);
+		validateFrame(nextFrameOf(frames), BonusFrame.class, 5);
 	}
 
 	@Test
@@ -103,9 +96,9 @@ public class ParserTest {
 
 		// then
 		assertThat(frames).hasSize(3);
-		validateFrame(nextOf(frames), StrikeFrame.class, 10);
-		validateFrame(nextOf(frames), BonusFrame.class, 5);
-		validateFrame(nextOf(frames), BonusFrame.class, 3);
+		validateFrame(nextFrameOf(frames), StrikeFrame.class, 10);
+		validateFrame(nextFrameOf(frames), BonusFrame.class, 5);
+		validateFrame(nextFrameOf(frames), BonusFrame.class, 3);
 	}
 
 	@Test
@@ -116,9 +109,9 @@ public class ParserTest {
 
 		// then
 		assertThat(frames).hasSize(3);
-		validateFrame(nextOf(frames), StrikeFrame.class, 10);
-		validateFrame(nextOf(frames), BonusFrame.class, 10);
-		validateFrame(nextOf(frames), BonusFrame.class, 10);
+		validateFrame(nextFrameOf(frames), StrikeFrame.class, 10);
+		validateFrame(nextFrameOf(frames), BonusFrame.class, 10);
+		validateFrame(nextFrameOf(frames), BonusFrame.class, 10);
 	}
 
 	@Test
@@ -130,20 +123,34 @@ public class ParserTest {
 		// then
 		assertThat(frames).hasSize(3);
 
-		Frame first = nextOf(frames);
-		Frame second = nextOf(frames);
-		Frame third = nextOf(frames);
+		Frame first = nextFrameOf(frames);
+		Frame second = nextFrameOf(frames);
+		Frame third = nextFrameOf(frames);
 
 		assertThat(first.getNext()).isEqualTo(second);
 		assertThat(second.getNext()).isEqualTo(third);
 	}
 
-	private Frame nextOf(Collection<Frame> frames) {
+	private GameEntry nextOf(Collection<GameEntry> entries) {
+		if (entriesIterator == null) {
+			entriesIterator = entries.iterator();
+		}
+
+		return entriesIterator.next();
+	}
+
+	private Frame nextFrameOf(Collection<Frame> frames) {
 		if (framesIterator == null) {
 			framesIterator = frames.iterator();
 		}
 
 		return framesIterator.next();
+	}
+
+	private void validateEntry(GameEntry entry, Type type, int first, int second) {
+		assertThat(entry.getType()).isEqualTo(type);
+		assertThat(entry.getFirstTry()).isEqualTo(first);
+		assertThat(entry.getSecondTry()).isEqualTo(second);
 	}
 
 	private void validateFrame(Frame frame, Class<?> type, int pins) {
