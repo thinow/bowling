@@ -99,16 +99,15 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore
 	public void parseGameSuiteWithStrikeAndTwoStikeBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("X" + "X" + "X");
+		Collection<GameEntry> entries = parser.parse("X" + "X" + "X");
 
 		// then
-		assertThat(frames).hasSize(3);
-		validateFrame(nextFrameOf(frames), StrikeFrame.class, 10);
-		validateFrame(nextFrameOf(frames), BonusFrame.class, 10);
-		validateFrame(nextFrameOf(frames), BonusFrame.class, 10);
+		assertThat(entries).hasSize(3);
+		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
+		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
+		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
 	}
 
 	@Test
