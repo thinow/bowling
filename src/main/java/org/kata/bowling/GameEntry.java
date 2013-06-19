@@ -9,7 +9,7 @@ import lombok.NonNull;
 public class GameEntry {
 
 	public static enum Type {
-		STRIKE, SPARE, FAILED, BONUS
+		STRIKE, SPARE, FAILED
 	}
 
 	@NonNull

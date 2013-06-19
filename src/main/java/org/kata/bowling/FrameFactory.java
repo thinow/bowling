@@ -23,8 +23,6 @@ public class FrameFactory {
 
 		case FAILED:
 			return new FailedFrame(pins);
-		case BONUS:
-			return new BonusFrame(pins);
 		case SPARE:
 			return new SpareFrame(pins);
 		case STRIKE:

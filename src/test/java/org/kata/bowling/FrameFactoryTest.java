@@ -36,15 +36,6 @@ public class FrameFactoryTest {
 	}
 
 	@Test
-	public void createBonusFrame() throws Exception {
-		// when
-		Frame frame = createFrame(BONUS);
-
-		// then
-		assertExpectedFrame(frame, BonusFrame.class, PINS);
-	}
-
-	@Test
 	public void createSpareFrame() throws Exception {
 		// when
 		Frame frame = createFrame(SPARE);
