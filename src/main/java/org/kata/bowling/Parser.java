@@ -3,7 +3,6 @@ package org.kata.bowling;
 import static com.google.common.collect.Lists.*;
 import static org.kata.bowling.GameEntry.Type.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -38,15 +37,15 @@ public class Parser {
 			return new GameEntry(STRIKE, ALL_PINS, NO_PIN);
 		}
 
-		Character secondSymbol = symbols.pop();
+		Character secondSymbol = symbols.poll();
 
-		if (secondSymbol == SYMBOL_SPARE) {
-			int firstTry = integerOf(symbol);
-			return new GameEntry(SPARE, firstTry, ALL_PINS - firstTry);
-		} else {
+		if (secondSymbol == null || secondSymbol != SYMBOL_SPARE) {
 			int firstTry = integerOf(symbol);
 			int secondTry = integerOf(secondSymbol);
 			return new GameEntry(FAILED, firstTry, secondTry);
+		} else {
+			int firstTry = integerOf(symbol);
+			return new GameEntry(SPARE, firstTry, ALL_PINS - firstTry);
 		}
 	}
 
@@ -98,7 +97,11 @@ public class Parser {
 		return new LinkedList<>(characters);
 	}
 
-	private int integerOf(char character) {
+	private int integerOf(Character character) {
+		if (character == null) {
+			return NO_PIN;
+		}
+
 		switch (character) {
 
 		case SYMBOL_MISSED:

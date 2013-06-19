@@ -77,28 +77,25 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore
 	public void parseGameSuiteWithSpareAndBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("2/" + "5");
+		Collection<GameEntry> entries = parser.parse("2/" + "5");
 
 		// then
-		assertThat(frames).hasSize(2);
-		validateFrame(nextFrameOf(frames), SpareFrame.class, 2);
-		validateFrame(nextFrameOf(frames), BonusFrame.class, 5);
+		assertThat(entries).hasSize(2);
+		validateEntry(nextOf(entries), SPARE, 2, ALL_PINS - 2);
+		validateEntry(nextOf(entries), FAILED, 5, NO_PIN);
 	}
 
 	@Test
-	@Ignore
 	public void parseGameSuiteWithStrikeAndTwoBonus() throws Exception {
 		// when
-		Collection<Frame> frames = parser.parseGame("X" + "5" + "3");
+		Collection<GameEntry> entries = parser.parse("X" + "5" + "3");
 
 		// then
-		assertThat(frames).hasSize(3);
-		validateFrame(nextFrameOf(frames), StrikeFrame.class, 10);
-		validateFrame(nextFrameOf(frames), BonusFrame.class, 5);
-		validateFrame(nextFrameOf(frames), BonusFrame.class, 3);
+		assertThat(entries).hasSize(2);
+		validateEntry(nextOf(entries), STRIKE, ALL_PINS, NO_PIN);
+		validateEntry(nextOf(entries), FAILED, 5, 3);
 	}
 
 	@Test
