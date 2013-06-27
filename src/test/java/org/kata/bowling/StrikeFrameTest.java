@@ -4,7 +4,6 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
-import org.kata.bowling.exception.MandatoryNextFrameException;
 
 public class StrikeFrameTest {
 
@@ -12,36 +11,24 @@ public class StrikeFrameTest {
 	private static final int FIRST_FRAME_PINS = 2;
 	private static final int SECOND_FRAME_PINS = 6;
 
-	@Test(expected = MandatoryNextFrameException.class)
-	public void cannotGetScoreWithoutNextFrame() throws Exception {
-		// given
-		StrikeFrame frame = new StrikeFrame();
-
-		// when
-		frame.getScore();
+	@Test(expected = NullPointerException.class)
+	public void cannotGetScoreWithoutFirstNextFrame() throws Exception {
+		// when / then
+		new StrikeFrame(null, createFrame(SECOND_FRAME_PINS));
 	}
 
-	@Test(expected = MandatoryNextFrameException.class)
-	public void cannotGetScoreWithOnlyOneNextFrame() throws Exception {
-		// given
-		StrikeFrame frame = new StrikeFrame();
-		frame.setNext(mock(Frame.class));
-
-		// when
-		frame.getScore();
+	@Test(expected = NullPointerException.class)
+	public void cannotGetScoreWithoutSecondNextFrame() throws Exception {
+		// when / then
+		new StrikeFrame(createFrame(FIRST_FRAME_PINS), null);
 	}
 
 	@Test
 	public void computeScoreBasedOnNextFrames() throws Exception {
 		// given
-		StrikeFrame frame = new StrikeFrame();
 		Frame firstNext = createFrame(FIRST_FRAME_PINS);
 		Frame secondNext = createFrame(SECOND_FRAME_PINS);
-
-		frame.setNext(firstNext);
-
-		when(firstNext.hasNext()).thenReturn(Boolean.TRUE);
-		when(firstNext.getNext()).thenReturn(secondNext);
+		StrikeFrame frame = new StrikeFrame(firstNext, secondNext);
 
 		// when
 		int score = frame.getScore();
