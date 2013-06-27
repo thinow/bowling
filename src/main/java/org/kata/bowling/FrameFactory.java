@@ -11,39 +11,53 @@ import org.kata.bowling.GameEntry.Type;
 
 public class FrameFactory {
 
+	private static final class DummyFrame extends Frame {
+		private DummyFrame() {
+			super(0);
+		}
+
+		@Override
+		int getScore() {
+			return 0;
+		}
+	}
+
+	private static final int FIRST = 0;
+	private static final int SECOND = 1;
+	private static final int THIRD = 2;
+
 	private static final int NO_BONUS_ZONE = 0;
 	private static final int SPARE_BONUS_ZONE = 1;
 	private static final int SHORT_STRIKE_BONUS_ZONE = 1;
 	private static final int LONG_STRIKE_BONUS_ZONE = 2;
 
 	private static final GameEntry DUMMY_ENTRY = new GameEntry(FAILED, 0, 0);
+	private static final DummyFrame DUMMY_FRAME = new DummyFrame();
 
 	private List<GameEntry> entries;
+	private List<Frame> frames;
+
 	private int bonusCount;
 
 	public Collection<Frame> createFrames(Collection<GameEntry> entries) {
-		this.entries = copyOf(entries);
+		this.entries = reverse(copyOf(entries));
 		this.bonusCount = calculateBonusCount();
 
 		int index = 0;
-		List<Frame> frames = newArrayList();
+		frames = newArrayList();
 		while (index < this.entries.size()) {
 			frames.addAll(createFrames(index++));
 		}
 
-		return frames;
+		return reverse(frames);
 	}
 
 	private int calculateBonusCount() {
-		int last = entries.size() - 1;
-		int secondToLast = last - 1;
-		int thirdToLast = last - 2;
-
-		if (findEntry(secondToLast).is(SPARE))
+		if (findEntry(SECOND).is(SPARE))
 			return SPARE_BONUS_ZONE;
-		else if (findEntry(secondToLast).is(STRIKE) && findEntry(last).is(SPARE))
+		else if (findEntry(SECOND).is(STRIKE) && findEntry(FIRST).is(SPARE))
 			return SHORT_STRIKE_BONUS_ZONE;
-		else if (findEntry(thirdToLast).is(STRIKE))
+		else if (findEntry(THIRD).is(STRIKE))
 			return LONG_STRIKE_BONUS_ZONE;
 		else
 			return NO_BONUS_ZONE;
@@ -69,8 +83,7 @@ public class FrameFactory {
 	}
 
 	private boolean isBonusZone(int index) {
-		int remainingEntries = entries.size() - (index + 1);
-		return remainingEntries < bonusCount;
+		return index < bonusCount;
 	}
 
 	private Collection<Frame> createFramesFromEntry(GameEntry entry) {
@@ -82,7 +95,7 @@ public class FrameFactory {
 		if (entry.is(SPARE)) {
 			BonusFrame firstFrame = new BonusFrame(entry.getFirstTry());
 			BonusFrame secondFrame = new BonusFrame(entry.getSecondTry());
-			return newArrayList(firstFrame, secondFrame);
+			return newArrayList(secondFrame, firstFrame);
 		} else {
 			return newArrayList(new BonusFrame(entry.getFirstTry()));
 		}
@@ -90,16 +103,33 @@ public class FrameFactory {
 
 	private Frame createFrame(GameEntry entry) {
 		final Type type = entry.getType();
-		final int pins = entry.getPins();
 
 		switch (type) {
 
 		case STRIKE:
-			return new StrikeFrame();
+			return new StrikeFrame(findLastFrame(), findSecondToLastFrame());
 		case SPARE:
-			return new SpareFrame(pins);
+			return new SpareFrame(entry.getFirstTry(), findLastFrame());
 		default:
 			return new FailedFrame(entry.getFirstTry(), entry.getSecondTry());
+		}
+	}
+
+	private Frame findLastFrame() {
+		int index = frames.size() - 1;
+		return findFrame(index);
+	}
+
+	private Frame findSecondToLastFrame() {
+		int index = frames.size() - 2;
+		return findFrame(index);
+	}
+
+	private Frame findFrame(int index) {
+		if (index < 0) {
+			return DUMMY_FRAME;
+		} else {
+			return frames.get(index);
 		}
 	}
 
