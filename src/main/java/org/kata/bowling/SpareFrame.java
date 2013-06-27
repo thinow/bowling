@@ -11,7 +11,7 @@ public class SpareFrame extends Frame {
 	private Frame next;
 
 	public SpareFrame(int firstTry, Frame next) {
-		super(ALL_PINS);
+		super(firstTry, ALL_PINS - firstTry);
 
 		checkNotNull(next, "Next frame cannot be null");
 		this.next = next;

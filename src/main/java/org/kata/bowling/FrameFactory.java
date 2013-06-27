@@ -13,7 +13,7 @@ public class FrameFactory {
 
 	private static final class DummyFrame extends Frame {
 		private DummyFrame() {
-			super(0);
+			super(0, 0);
 		}
 
 		@Override

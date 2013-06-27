@@ -7,8 +7,13 @@ import lombok.Getter;
 public abstract class Frame {
 
 	@Getter
-	private int knockedPins;
+	private int firstTry;
+	@Getter
+	private int secondTry;
+
+	public int getKnockedPins() {
+		return firstTry + secondTry;
+	}
 
 	abstract int getScore();
-
 }
