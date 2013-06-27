@@ -99,7 +99,7 @@ public class FrameFactory {
 		case SPARE:
 			return new SpareFrame(pins);
 		default:
-			return new FailedFrame(pins);
+			return new FailedFrame(entry.getFirstTry(), entry.getSecondTry());
 		}
 	}
 

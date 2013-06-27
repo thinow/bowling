@@ -2,8 +2,8 @@ package org.kata.bowling;
 
 public class FailedFrame extends Frame {
 
-	public FailedFrame(int knockedPins) {
-		super(knockedPins);
+	public FailedFrame(int firstTry, int secondTry) {
+		super(firstTry + secondTry);
 	}
 
 	@Override
