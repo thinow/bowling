@@ -94,15 +94,12 @@ public class FrameFactory {
 
 		switch (type) {
 
-		case FAILED:
-			return new FailedFrame(pins);
-		case SPARE:
-			return new SpareFrame(pins);
 		case STRIKE:
 			return new StrikeFrame();
-
+		case SPARE:
+			return new SpareFrame(pins);
 		default:
-			return null;
+			return new FailedFrame(pins);
 		}
 	}
 
