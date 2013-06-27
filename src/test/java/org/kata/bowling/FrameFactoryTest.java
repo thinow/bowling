@@ -89,6 +89,34 @@ public class FrameFactoryTest {
 		assertExpectedFrame(nextOf(frames), BonusFrame.class);
 	}
 
+	@Test
+	public void createSuiteWithStrikeBonus() throws Exception {
+		// when
+		Collection<Frame> frames = createFrames(STRIKE, STRIKE, FAILED, FAILED);
+
+		// then
+		assertThat(frames).hasSize(4);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
+	}
+
+	@Test
+	public void createSuiteWithStrikeSpareBonus() throws Exception {
+		// when
+		Collection<Frame> frames = createFrames(STRIKE, STRIKE, SPARE);
+
+		// then
+		System.err.println(frames);
+		assertThat(frames).hasSize(4);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
+		// and then : 1 SPARE as bonus = 2 BonusFrame
+		assertExpectedFrame(nextOf(frames), BonusFrame.class, FIRST_TRY);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class, SECOND_TRY);
+	}
+
 	private Frame createFrame(Type type) {
 		Collection<Frame> frames = createFrames(type);
 		return getOnlyElement(frames);

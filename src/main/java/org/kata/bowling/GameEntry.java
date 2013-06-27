@@ -21,4 +21,8 @@ public class GameEntry {
 		return firstTry + secondTry;
 	}
 
+	public boolean is(Type type) {
+		return this.type == type;
+	}
+
 }

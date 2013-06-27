@@ -11,60 +11,81 @@ import org.kata.bowling.GameEntry.Type;
 
 public class FrameFactory {
 
+	private static final int NO_BONUS_ZONE = 0;
+	private static final int SPARE_BONUS_ZONE = 1;
+	private static final int SHORT_STRIKE_BONUS_ZONE = 1;
+	private static final int LONG_STRIKE_BONUS_ZONE = 2;
+
 	private static final GameEntry DUMMY_ENTRY = new GameEntry(FAILED, 0, 0);
 
 	private List<GameEntry> entries;
+	private int bonusCount;
 
 	public Collection<Frame> createFrames(Collection<GameEntry> entries) {
 		this.entries = copyOf(entries);
+		this.bonusCount = calculateBonusCount();
 
 		int index = 0;
 		List<Frame> frames = newArrayList();
 		while (index < this.entries.size()) {
-			frames.add(createFrame(index++));
+			frames.addAll(createFrames(index++));
 		}
 
 		return frames;
 	}
 
-	private Frame createFrame(int index) {
+	private int calculateBonusCount() {
+		int last = entries.size() - 1;
+		int secondToLast = last - 1;
+		int thirdToLast = last - 2;
+
+		if (findEntry(secondToLast).is(SPARE))
+			return SPARE_BONUS_ZONE;
+		else if (findEntry(secondToLast).is(STRIKE) && findEntry(last).is(SPARE))
+			return SHORT_STRIKE_BONUS_ZONE;
+		else if (findEntry(thirdToLast).is(STRIKE))
+			return LONG_STRIKE_BONUS_ZONE;
+		else
+			return NO_BONUS_ZONE;
+	}
+
+	private Collection<? extends Frame> createFrames(int index) {
 		GameEntry entry = findEntry(index);
 
-		if (isSpareBonusZone(index) || isStrikeBonusZone(index)) {
-			return new BonusFrame(entry.getFirstTry());
+		if (isBonusZone(index)) {
+			return createBonusFramesFromEntry(entry);
 		} else {
-			return createFrame(entry);
-		}
-	}
-
-	private boolean isSpareBonusZone(int index) {
-		return isLastEntry(index) && isPreviousType(SPARE, index);
-	}
-
-	private boolean isStrikeBonusZone(int index) {
-		boolean firstBonus = isLastEntry(index + 1) && isPreviousType(STRIKE, index);
-		boolean secondBonus = isLastEntry(index) && isPreviousType(STRIKE, index - 1);
-		return firstBonus || secondBonus;
-	}
-
-	private boolean isPreviousType(Type type, int index) {
-		return findPreviousEntry(index).getType() == type;
-	}
-
-	private GameEntry findPreviousEntry(int index) {
-		if (index <= 0) {
-			return DUMMY_ENTRY;
-		} else {
-			return findEntry(index - 1);
+			return createFramesFromEntry(entry);
 		}
 	}
 
 	private GameEntry findEntry(int index) {
-		return entries.get(index);
+		boolean validIndex = 0 <= index && index < entries.size();
+
+		if (!validIndex)
+			return DUMMY_ENTRY;
+		else
+			return entries.get(index);
 	}
 
-	private boolean isLastEntry(int index) {
-		return index == entries.size() - 1;
+	private boolean isBonusZone(int index) {
+		int remainingEntries = entries.size() - (index + 1);
+		return remainingEntries < bonusCount;
+	}
+
+	private Collection<Frame> createFramesFromEntry(GameEntry entry) {
+		Frame frame = createFrame(entry);
+		return newArrayList(frame);
+	}
+
+	private Collection<? extends Frame> createBonusFramesFromEntry(GameEntry entry) {
+		if (entry.is(SPARE)) {
+			BonusFrame firstFrame = new BonusFrame(entry.getFirstTry());
+			BonusFrame secondFrame = new BonusFrame(entry.getSecondTry());
+			return newArrayList(firstFrame, secondFrame);
+		} else {
+			return newArrayList(new BonusFrame(entry.getFirstTry()));
+		}
 	}
 
 	private Frame createFrame(GameEntry entry) {
