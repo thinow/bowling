@@ -4,7 +4,6 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
-import org.kata.bowling.exception.MandatoryNextFrameException;
 
 public class SpareFrameTest {
 
@@ -12,20 +11,16 @@ public class SpareFrameTest {
 	private static final int SPARE_BONUS = 10;
 	private static final int PINS = 4;
 
-	@Test(expected = MandatoryNextFrameException.class)
+	@Test(expected = NullPointerException.class)
 	public void cannotGetScoreWithoutNextFrame() throws Exception {
-		// given
-		Frame frame = new SpareFrame(PINS);
-
-		// when
-		frame.getScore();
+		// when / then
+		new SpareFrame(PINS, null);
 	}
 
 	@Test
 	public void computeScoreBasedOnNextFrame() throws Exception {
 		// given
-		Frame frame = new SpareFrame(PINS);
-		frame.setNext(createFrame(NEXT_FRAME_PINS));
+		Frame frame = new SpareFrame(PINS, createFrame(NEXT_FRAME_PINS));
 
 		// when
 		int score = frame.getScore();

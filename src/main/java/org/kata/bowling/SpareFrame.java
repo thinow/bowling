@@ -1,6 +1,6 @@
 package org.kata.bowling;
 
-import org.kata.bowling.exception.MandatoryNextFrameException;
+import static com.google.common.base.Preconditions.*;
 
 public class SpareFrame extends Frame {
 
@@ -8,17 +8,23 @@ public class SpareFrame extends Frame {
 
 	private static final int SPARE_BONUS = 10;
 
-	public SpareFrame(int firstTry) {
+	private Frame next;
+
+	@Deprecated
+	public SpareFrame(int pins) {
 		super(ALL_PINS);
+	}
+
+	public SpareFrame(int firstTry, Frame next) {
+		super(ALL_PINS);
+
+		checkNotNull(next, "Next frame cannot be null");
+		this.next = next;
 	}
 
 	@Override
 	public int getScore() {
-		if (!hasNext()) {
-			throw new MandatoryNextFrameException();
-		}
-
-		return SPARE_BONUS + getNext().getKnockedPins();
+		return SPARE_BONUS + next.getKnockedPins();
 	}
 
 }
