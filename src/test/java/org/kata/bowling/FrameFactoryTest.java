@@ -108,7 +108,6 @@ public class FrameFactoryTest {
 		Collection<Frame> frames = createFrames(STRIKE, STRIKE, SPARE);
 
 		// then
-		System.err.println(frames);
 		assertThat(frames).hasSize(4);
 		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
 		assertExpectedFrame(nextOf(frames), StrikeFrame.class);

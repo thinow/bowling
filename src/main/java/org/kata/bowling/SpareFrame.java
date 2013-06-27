@@ -10,11 +10,6 @@ public class SpareFrame extends Frame {
 
 	private Frame next;
 
-	@Deprecated
-	public SpareFrame(int pins) {
-		super(ALL_PINS);
-	}
-
 	public SpareFrame(int firstTry, Frame next) {
 		super(ALL_PINS);
 

@@ -9,11 +9,6 @@ public class StrikeFrame extends Frame {
 	private Frame secondNext;
 	private Frame firstNext;
 
-	@Deprecated
-	public StrikeFrame() {
-		super(ALL_PINS);
-	}
-
 	public StrikeFrame(Frame firstNext, Frame secondNext) {
 		super(ALL_PINS);
 
