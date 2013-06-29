@@ -19,7 +19,7 @@ public class SpareFrame extends Frame {
 
 	@Override
 	public int getScore() {
-		return SPARE_BONUS + next.getKnockedPins();
+		return SPARE_BONUS + next.getFirstTry();
 	}
 
 }

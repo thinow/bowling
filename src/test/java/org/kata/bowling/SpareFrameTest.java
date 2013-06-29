@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class SpareFrameTest {
 
-	private static final int NEXT_FRAME_PINS = 6;
+	private static final int NEXT_FRAME_FIRST_TRY = 6;
 	private static final int SPARE_BONUS = 10;
 	private static final int PINS = 4;
 
@@ -20,18 +20,18 @@ public class SpareFrameTest {
 	@Test
 	public void computeScoreBasedOnNextFrame() throws Exception {
 		// given
-		Frame frame = new SpareFrame(PINS, createFrame(NEXT_FRAME_PINS));
+		Frame frame = new SpareFrame(PINS, createFrame(NEXT_FRAME_FIRST_TRY));
 
 		// when
 		int score = frame.getScore();
 
 		// then
-		assertThat(score).isEqualTo(SPARE_BONUS + NEXT_FRAME_PINS);
+		assertThat(score).isEqualTo(SPARE_BONUS + NEXT_FRAME_FIRST_TRY);
 	}
 
 	private Frame createFrame(int pins) {
 		Frame frame = mock(Frame.class);
-		when(frame.getKnockedPins()).thenReturn(pins);
+		when(frame.getFirstTry()).thenReturn(pins);
 
 		return frame;
 	}
