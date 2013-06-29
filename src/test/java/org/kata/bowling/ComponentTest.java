@@ -9,14 +9,13 @@ import org.junit.Test;
 
 public class ComponentTest {
 
-	private static final FrameFactory NO_FACTORY = null;
-
 	private ScoreCalculator calculator;
 
 	@Before
 	public void setUp() throws Exception {
 		Parser parser = new Parser();
-		calculator = new ScoreCalculator(parser, NO_FACTORY);
+		FrameFactory frameFactory = new FrameFactory();
+		calculator = new ScoreCalculator(parser, frameFactory);
 	}
 
 	@Test
