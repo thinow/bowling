@@ -25,7 +25,10 @@ public class ScoreCalculator {
 		Collection<GameEntry> entries = parser.parse(game);
 		Collection<Frame> frames = frameFactory.createFrames(entries);
 
-		return sumFrameScores(frames);
+		int score = sumFrameScores(frames);
+		LOG.printFinalScore(score);
+
+		return score;
 	}
 
 	private int sumFrameScores(Collection<Frame> frames) {
@@ -35,7 +38,10 @@ public class ScoreCalculator {
 
 			int frameScore = frame.getScore();
 			score += frameScore;
+
+			LOG.printIntermediateScore(score);
 		}
+
 		return score;
 	}
 

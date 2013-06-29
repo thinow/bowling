@@ -14,17 +14,29 @@ public final class Logger {
 	}
 
 	public void printNewGame(String game) {
-		info("--------------------");
-		info(format("Game : %s", game));
+		println("--------------------");
+		println(format("Game : %s", game));
 	}
 
 	public void printFrame(Frame frame) {
 		String type = frame.getClass().getSimpleName();
-		info("> %s\t: score %d", type, frame.getScore());
+		print("> %s(%d)", type, frame.getScore());
 	}
 
-	private void info(String message, Object... arguments) {
-		String text = format(message, arguments);
-		System.out.println(text);
+	public void printIntermediateScore(int score) {
+		println("\tscore %d", score);
 	}
+
+	public void printFinalScore(int score) {
+		println("Final score = %s", score);
+	}
+
+	private void print(String message, Object... arguments) {
+		System.out.print(format(message, arguments));
+	}
+
+	private void println(String message, Object... arguments) {
+		System.out.println(format(message, arguments));
+	}
+
 }
