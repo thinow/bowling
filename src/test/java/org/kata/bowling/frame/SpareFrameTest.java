@@ -2,7 +2,7 @@ package org.kata.bowling.frame;
 
 import static com.google.common.collect.Lists.*;
 import static org.fest.assertions.Assertions.*;
-import static org.kata.bowling.MockedFrameHelper.*;
+import static org.kata.bowling.helper.MockedFrameHelper.*;
 
 import org.junit.Test;
 import org.kata.bowling.frame.SpareFrame;

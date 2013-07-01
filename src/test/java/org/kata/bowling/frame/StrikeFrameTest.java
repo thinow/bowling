@@ -1,7 +1,7 @@
 package org.kata.bowling.frame;
 
 import static org.fest.assertions.Assertions.*;
-import static org.kata.bowling.MockedFrameHelper.*;
+import static org.kata.bowling.helper.MockedFrameHelper.*;
 
 import java.util.Collection;
 

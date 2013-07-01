@@ -1,4 +1,4 @@
-package org.kata.bowling;
+package org.kata.bowling.helper;
 
 import static com.google.common.collect.Collections2.*;
 import static com.google.common.collect.ImmutableList.*;
