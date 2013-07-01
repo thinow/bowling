@@ -1,6 +1,11 @@
 package org.kata.bowling;
 
 import static com.google.common.base.Preconditions.*;
+import static com.google.common.collect.Iterables.*;
+import static com.google.common.collect.Lists.*;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 public class StrikeFrame extends Frame {
 
@@ -23,9 +28,33 @@ public class StrikeFrame extends Frame {
 	}
 
 	@Override
+	public Collection<Try> asTries() {
+		return newArrayList(new Try(ALL_PINS));
+	}
+
+	@Override
 	public int getScore() {
-		int firstPins = firstNext.getKnockedPins();
-		int secondPins = secondNext.getKnockedPins();
-		return BONUS_STRIKE + firstPins + secondPins;
+		return BONUS_STRIKE + sumOfNextTries();
+	}
+
+	private int sumOfNextTries() {
+		Iterable<Try> tries = findTwoFirstTries();
+		return sum(tries);
+	}
+
+	private Iterable<Try> findTwoFirstTries() {
+		Iterable<Try> all = concat(firstNext.asTries(), secondNext.asTries());
+
+		Iterator<Try> iterator = all.iterator();
+		return newArrayList(iterator.next(), iterator.next());
+	}
+
+	private int sum(Iterable<Try> tries) {
+		int sum = 0;
+		for (Try aTry : tries) {
+			sum += aTry.getPins();
+		}
+
+		return sum;
 	}
 }
