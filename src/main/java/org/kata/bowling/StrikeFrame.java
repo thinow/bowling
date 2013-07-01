@@ -26,8 +26,8 @@ public class StrikeFrame extends Frame {
 
 	@Override
 	public Collection<Try> asTries() {
-		Try only = new Try(ALL_PINS);
-		return newArrayList(only);
+		Try onlyOne = new Try(ALL_PINS);
+		return newArrayList(onlyOne);
 	}
 
 	@Override
