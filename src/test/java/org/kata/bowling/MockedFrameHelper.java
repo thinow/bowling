@@ -28,4 +28,8 @@ public class MockedFrameHelper {
 		});
 	}
 
+	public static Frame anyFrame() {
+		return mock(Frame.class);
+	}
+
 }

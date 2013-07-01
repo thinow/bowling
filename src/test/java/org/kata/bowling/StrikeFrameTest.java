@@ -2,7 +2,6 @@ package org.kata.bowling;
 
 import static org.fest.assertions.Assertions.*;
 import static org.kata.bowling.MockedFrameHelper.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
@@ -70,10 +69,6 @@ public class StrikeFrameTest {
 		// then
 		assertThat(tries).hasSize(1);
 		assertThat(tries).onProperty("pins").containsOnly(ALL_PINS);
-	}
-
-	private Frame anyFrame() {
-		return mock(Frame.class);
 	}
 
 }
