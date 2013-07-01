@@ -1,16 +1,13 @@
 package org.kata.bowling;
 
-import static com.google.common.collect.Collections2.*;
-import static com.google.common.collect.ImmutableList.*;
 import static org.fest.assertions.Assertions.*;
+import static org.kata.bowling.MockedFrameHelper.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
 import org.junit.Test;
 import org.kata.bowling.Frame.Try;
-
-import com.google.common.base.Function;
 
 public class StrikeFrameTest {
 
@@ -77,22 +74,6 @@ public class StrikeFrameTest {
 
 	private Frame anyFrame() {
 		return mock(Frame.class);
-	}
-
-	private Frame createFrame(Integer... tries) {
-		Frame frame = mock(Frame.class);
-		when(frame.asTries()).thenReturn(transformAsObjects(tries));
-
-		return frame;
-	}
-
-	private Collection<Try> transformAsObjects(Integer... tries) {
-		return transform(copyOf(tries), new Function<Integer, Try>() {
-			@Override
-			public Try apply(Integer pins) {
-				return new Try(pins);
-			}
-		});
 	}
 
 }
