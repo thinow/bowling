@@ -4,7 +4,9 @@ import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 public abstract class Frame {
 
