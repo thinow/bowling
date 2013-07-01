@@ -9,17 +9,14 @@ import java.util.Iterator;
 
 public class StrikeFrame extends Frame {
 
-	private static final int NO_PINS = 0;
 	private static final int ALL_PINS = 10;
 
 	private static final int BONUS_STRIKE = 10;
 
-	private Frame secondNext;
 	private Frame firstNext;
+	private Frame secondNext;
 
 	public StrikeFrame(Frame firstNext, Frame secondNext) {
-		super(ALL_PINS, NO_PINS);
-
 		checkNotNull(firstNext, "First next frame cannot be null");
 		checkNotNull(secondNext, "Second next frame cannot be null");
 
@@ -29,7 +26,8 @@ public class StrikeFrame extends Frame {
 
 	@Override
 	public Collection<Try> asTries() {
-		return newArrayList(new Try(ALL_PINS));
+		Try only = new Try(ALL_PINS);
+		return newArrayList(only);
 	}
 
 	@Override
