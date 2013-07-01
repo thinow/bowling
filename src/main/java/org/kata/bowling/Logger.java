@@ -2,6 +2,8 @@ package org.kata.bowling;
 
 import static java.lang.String.*;
 
+import org.kata.bowling.frame.Frame;
+
 public final class Logger {
 
 	private static final Logger INSTANCE = new Logger();

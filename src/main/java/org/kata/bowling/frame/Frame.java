@@ -1,4 +1,4 @@
-package org.kata.bowling;
+package org.kata.bowling.frame;
 
 import java.util.Collection;
 

@@ -4,6 +4,8 @@ import static com.google.common.base.Preconditions.*;
 
 import java.util.Collection;
 
+import org.kata.bowling.frame.Frame;
+
 public class ScoreCalculator {
 
 	private static final Logger LOG = Logger.getInstance();

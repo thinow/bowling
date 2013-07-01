@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kata.bowling.frame.Frame;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

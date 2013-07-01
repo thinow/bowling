@@ -6,7 +6,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
-import org.kata.bowling.Frame.Try;
+import org.kata.bowling.frame.Frame;
+import org.kata.bowling.frame.Frame.Try;
 
 import com.google.common.base.Function;
 

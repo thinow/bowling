@@ -8,6 +8,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kata.bowling.GameEntry.Type;
+import org.kata.bowling.frame.BonusFrame;
+import org.kata.bowling.frame.FailedFrame;
+import org.kata.bowling.frame.Frame;
+import org.kata.bowling.frame.SpareFrame;
+import org.kata.bowling.frame.StrikeFrame;
 
 public class FrameFactory {
 

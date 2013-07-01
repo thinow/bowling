@@ -1,4 +1,4 @@
-package org.kata.bowling;
+package org.kata.bowling.frame;
 
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.collect.Iterables.*;
@@ -6,6 +6,7 @@ import static com.google.common.collect.Lists.*;
 
 import java.util.Collection;
 import java.util.Iterator;
+
 
 public class StrikeFrame implements Frame {
 

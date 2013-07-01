@@ -11,6 +11,11 @@ import java.util.Iterator;
 
 import org.junit.Test;
 import org.kata.bowling.GameEntry.Type;
+import org.kata.bowling.frame.BonusFrame;
+import org.kata.bowling.frame.FailedFrame;
+import org.kata.bowling.frame.Frame;
+import org.kata.bowling.frame.SpareFrame;
+import org.kata.bowling.frame.StrikeFrame;
 
 import com.google.common.base.Function;
 

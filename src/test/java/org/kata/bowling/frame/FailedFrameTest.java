@@ -1,4 +1,4 @@
-package org.kata.bowling;
+package org.kata.bowling.frame;
 
 import static com.google.common.collect.Lists.*;
 import static org.fest.assertions.Assertions.*;
@@ -6,7 +6,7 @@ import static org.fest.assertions.Assertions.*;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.kata.bowling.Frame.Try;
+import org.kata.bowling.frame.Frame.Try;
 
 public class FailedFrameTest {
 

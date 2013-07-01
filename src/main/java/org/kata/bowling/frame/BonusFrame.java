@@ -1,8 +1,9 @@
-package org.kata.bowling;
+package org.kata.bowling.frame;
 
 import static com.google.common.collect.Lists.*;
 
 import java.util.Collection;
+
 
 public class BonusFrame implements Frame {
 

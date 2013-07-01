@@ -1,4 +1,4 @@
-package org.kata.bowling;
+package org.kata.bowling.frame;
 
 import static org.fest.assertions.Assertions.*;
 import static org.kata.bowling.MockedFrameHelper.*;
@@ -6,7 +6,7 @@ import static org.kata.bowling.MockedFrameHelper.*;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.kata.bowling.Frame.Try;
+import org.kata.bowling.frame.Frame.Try;
 
 public class StrikeFrameTest {
 
