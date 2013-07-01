@@ -4,11 +4,8 @@ import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class Frame {
+public interface Frame {
 
 	@AllArgsConstructor
 	public static class Try {
@@ -16,19 +13,8 @@ public abstract class Frame {
 		private int pins;
 	}
 
-	@Getter
-	private int firstTry;
-	@Getter
-	private int secondTry;
+	Collection<Try> asTries();
 
-	public int getKnockedPins() {
-		return firstTry + secondTry;
-	}
-
-	abstract int getScore();
-
-	public Collection<Try> asTries() {
-		return null;
-	}
+	int getScore();
 
 }

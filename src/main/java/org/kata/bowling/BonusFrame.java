@@ -4,7 +4,7 @@ import static com.google.common.collect.Lists.*;
 
 import java.util.Collection;
 
-public class BonusFrame extends Frame {
+public class BonusFrame implements Frame {
 
 	private static final int NO_SCORE = 0;
 
@@ -21,7 +21,7 @@ public class BonusFrame extends Frame {
 	}
 
 	@Override
-	int getScore() {
+	public int getScore() {
 		return NO_SCORE;
 	}
 

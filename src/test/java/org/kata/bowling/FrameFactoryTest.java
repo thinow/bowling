@@ -31,7 +31,7 @@ public class FrameFactoryTest {
 		Frame frame = createFrame(FAILED);
 
 		// then
-		assertExpectedFrame(frame, FailedFrame.class, FIRST_TRY + SECOND_TRY);
+		assertExpectedFrame(frame, FailedFrame.class);
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class FrameFactoryTest {
 		Frame frame = createFrame(SPARE);
 
 		// then
-		assertExpectedFrame(frame, SpareFrame.class, ALL_PINS);
+		assertExpectedFrame(frame, SpareFrame.class);
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class FrameFactoryTest {
 		Frame frame = createFrame(STRIKE);
 
 		// then
-		assertExpectedFrame(frame, StrikeFrame.class, ALL_PINS);
+		assertExpectedFrame(frame, StrikeFrame.class);
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class FrameFactoryTest {
 		// then
 		assertThat(frames).hasSize(2);
 		assertExpectedFrame(nextOf(frames), SpareFrame.class);
-		assertExpectedFrame(nextOf(frames), BonusFrame.class, FIRST_TRY);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
 	}
 
 	@Test
@@ -112,8 +112,8 @@ public class FrameFactoryTest {
 		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
 		assertExpectedFrame(nextOf(frames), StrikeFrame.class);
 		// and then : 1 SPARE as bonus = 2 BonusFrame
-		assertExpectedFrame(nextOf(frames), BonusFrame.class, FIRST_TRY);
-		assertExpectedFrame(nextOf(frames), BonusFrame.class, SECOND_TRY);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
+		assertExpectedFrame(nextOf(frames), BonusFrame.class);
 	}
 
 	private Frame createFrame(Type type) {
@@ -145,11 +145,6 @@ public class FrameFactoryTest {
 
 	private void assertExpectedFrame(Frame frame, Class<? extends Frame> type) {
 		assertThat(frame).isInstanceOf(type);
-	}
-
-	private void assertExpectedFrame(Frame frame, Class<? extends Frame> type, int pins) {
-		assertThat(frame).isInstanceOf(type);
-		assertThat(frame.getKnockedPins()).isEqualTo(pins);
 	}
 
 }

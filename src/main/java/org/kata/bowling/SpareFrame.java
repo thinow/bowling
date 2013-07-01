@@ -5,7 +5,7 @@ import static com.google.common.collect.Lists.*;
 
 import java.util.Collection;
 
-public class SpareFrame extends Frame {
+public class SpareFrame implements Frame {
 
 	private static final int ALL_PINS = 10;
 

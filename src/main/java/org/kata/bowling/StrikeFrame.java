@@ -7,7 +7,7 @@ import static com.google.common.collect.Lists.*;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class StrikeFrame extends Frame {
+public class StrikeFrame implements Frame {
 
 	private static final int ALL_PINS = 10;
 

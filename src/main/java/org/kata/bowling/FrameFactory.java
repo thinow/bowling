@@ -11,14 +11,18 @@ import org.kata.bowling.GameEntry.Type;
 
 public class FrameFactory {
 
-	private static final class DummyFrame extends Frame {
-		private DummyFrame() {
-			super(0, 0);
+	private static final class DummyFrame implements Frame {
+		private static final Collection<Try> NO_TRIES = null;
+		private static final int NO_SCORE = 0;
+
+		@Override
+		public Collection<Try> asTries() {
+			return NO_TRIES;
 		}
 
 		@Override
-		int getScore() {
-			return 0;
+		public int getScore() {
+			return NO_SCORE;
 		}
 	}
 

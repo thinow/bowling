@@ -4,7 +4,7 @@ import static com.google.common.collect.Lists.*;
 
 import java.util.Collection;
 
-public class FailedFrame extends Frame {
+public class FailedFrame implements Frame {
 
 	private int firstTry;
 	private int secondTry;
