@@ -1,8 +1,12 @@
 package org.kata.bowling;
 
+import static com.google.common.collect.Lists.*;
 import static org.fest.assertions.Assertions.*;
 
+import java.util.Collection;
+
 import org.junit.Test;
+import org.kata.bowling.Frame.Try;
 
 public class FailedFrameTest {
 
@@ -19,6 +23,18 @@ public class FailedFrameTest {
 
 		// then
 		assertThat(score).isEqualTo(FIRST_TRY + SECOND_TRY);
+	}
+
+	@Test
+	public void failedFrameAsTwoTries() throws Exception {
+		// given
+		FailedFrame frame = new FailedFrame(FIRST_TRY, SECOND_TRY);
+
+		// when
+		Collection<Try> tries = frame.asTries();
+
+		// then
+		assertThat(tries).onProperty("pins").isEqualTo(newArrayList(FIRST_TRY, SECOND_TRY));
 	}
 
 }
