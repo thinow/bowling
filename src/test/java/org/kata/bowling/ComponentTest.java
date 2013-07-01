@@ -59,7 +59,7 @@ public class ComponentTest {
 
 	@Test
 	public void scoresSample3() throws Exception {
-		assertThatScoreOf("63718/72X627/X8-7/").isEqualTo(135);
+		assertThatScoreOf("63718/72X627/X8-7/X").isEqualTo(135);
 	}
 
 	private IntAssert assertThatScoreOf(String line) {
