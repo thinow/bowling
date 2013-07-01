@@ -16,8 +16,6 @@ import com.google.common.base.Function;
 
 public class FrameFactoryTest {
 
-	private static final int ALL_PINS = 10;
-
 	protected static final int FIRST_TRY = 2;
 	protected static final int SECOND_TRY = 5;
 
