@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ScoreCalculatorTest {
 
-	private static final String GAME = "any-game-line";
+	private static final Object GAME = "any-game-input";
 
 	private static final Collection<GameEntry> ENTRIES = newArrayList(mock(GameEntry.class));
 
@@ -24,7 +24,7 @@ public class ScoreCalculatorTest {
 	private static final int ANOTHER_SCORE = 8;
 
 	@Mock
-	private Parser parser;
+	private Parser<Object> parser;
 	@Mock
 	private FrameFactory frameFactory;
 
@@ -58,8 +58,8 @@ public class ScoreCalculatorTest {
 		return anyCollectionOf(GameEntry.class);
 	}
 
-	private int calculateGameScore(String game) {
-		ScoreCalculator calculator = new ScoreCalculator(parser, frameFactory);
+	private int calculateGameScore(Object game) {
+		ScoreCalculator<Object> calculator = new ScoreCalculator<>(parser, frameFactory);
 		return calculator.calculate(game);
 	}
 }

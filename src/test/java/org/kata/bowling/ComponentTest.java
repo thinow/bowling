@@ -8,13 +8,13 @@ import org.junit.Test;
 
 public class ComponentTest {
 
-	private ScoreCalculator calculator;
+	private ScoreCalculator<String> calculator;
 
 	@Before
 	public void setUp() throws Exception {
-		Parser parser = new Parser();
+		Parser<String> parser = new DefaultParser();
 		FrameFactory frameFactory = new FrameFactory();
-		calculator = new ScoreCalculator(parser, frameFactory);
+		calculator = new ScoreCalculator<>(parser, frameFactory);
 	}
 
 	@Test

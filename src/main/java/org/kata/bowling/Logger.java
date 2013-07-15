@@ -15,7 +15,7 @@ public final class Logger {
 	private Logger() {
 	}
 
-	public void printNewGame(String game) {
+	public void printNewGame(Object game) {
 		println("--------------------");
 		println(format("Game : %s", game));
 	}

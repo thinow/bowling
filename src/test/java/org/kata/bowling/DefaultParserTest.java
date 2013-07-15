@@ -13,12 +13,12 @@ import org.kata.bowling.GameEntry.Type;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ParserTest {
+public class DefaultParserTest {
 
 	private static final int NO_PIN = 0;
 	private static final int ALL_PINS = 10;
 
-	private Parser parser = new Parser();
+	private DefaultParser parser = new DefaultParser();
 
 	private Iterator<GameEntry> entriesIterator;
 

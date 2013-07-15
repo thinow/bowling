@@ -6,14 +6,14 @@ import java.util.Collection;
 
 import org.kata.bowling.frame.Frame;
 
-public class ScoreCalculator {
+public class ScoreCalculator<T> {
 
 	private static final Logger LOG = Logger.getInstance();
 
-	private final Parser parser;
+	private final Parser<T> parser;
 	private final FrameFactory frameFactory;
 
-	public ScoreCalculator(Parser parser, FrameFactory frameFactory) {
+	public ScoreCalculator(Parser<T> parser, FrameFactory frameFactory) {
 		checkNotNull(parser, "Parser cannot be null");
 		checkNotNull(frameFactory, "Factory cannot be null");
 
@@ -21,7 +21,7 @@ public class ScoreCalculator {
 		this.frameFactory = frameFactory;
 	}
 
-	public int calculate(String game) {
+	public int calculate(T game) {
 		LOG.printNewGame(game);
 
 		Collection<GameEntry> entries = parser.parse(game);
